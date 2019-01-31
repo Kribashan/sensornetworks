@@ -25,16 +25,20 @@ logging.basicConfig(filename='SensorErrorLog.log',level=logging.DEBUG,
                     format='%(asctime)s:%(levelname)s:%(message)s')
 
 def GenerateData ():
-    
-    outputData = {}
+    outputData = []
     sensors = []
-    
     for i in range(0,32):
         for j in range(0,16):
             sensors.append(float('%.4f'%random.random()))
-        outputData[i+1] = sensors
+        outputData.append(sensors)
         sensors = []
     return outputData
+
+def MakeDict(dataset):
+    data = {}
+    for k, v in enumerate(dataset):
+        data[k+1] = v
+    return data
 
 def GenerateError (data):
     no_err = random.randrange(10)
@@ -47,7 +51,7 @@ def GenerateError (data):
 def CheckForErr(data):
     listErr = {}
     for k, v in data.items():
-        if ('err' in v):
+        if (-1 in v):
             for i,x in enumerate(v): 
                 if (x == -1):
                     listErr[k] = i
@@ -82,9 +86,11 @@ print("Time start: {}".format(datetime.datetime.now()))
 while(count < 5):
     
     data = {}
+    dataIn = []
     message = ''
+    dataIn = GenerateData()
     
-    data = GenerateData()
+    data = MakeDict(dataIn)
     
     GenerateError(data)
     data = ReplaceError(data)
