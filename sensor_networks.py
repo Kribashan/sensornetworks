@@ -16,7 +16,7 @@ import csv
 import os
 import datetime
 import logging
-import time
+#import time
 
 for handler in logging.root.handlers[:]:
     logging.root.removeHandler(handler)
@@ -81,27 +81,27 @@ def WriteData(data):
             writer.writeheader()
             writer.writerow(data)
         
-count = 0
-print("Time start: {}".format(datetime.datetime.now()))
-while(count < 5):
+#count = 0
+#print("Time start: {}".format(datetime.datetime.now()))
+#while(count < 5):
     
-    data = {}
-    dataIn = []
-    message = ''
-    dataIn = GenerateData()
-    
-    data = MakeDict(dataIn)
-    
-    GenerateError(data)
-    data = ReplaceError(data)
-    errorlist = CheckForErr(data)
-    
-    if (len(errorlist) != 0):
-        for k, v in errorlist.items():
-            message = message + 'Cluster: {0} has error on sensor: {1} \n'.format(k,v)
-        logging.warning(message)
-    
-    WriteData(data)
-    count += 1
-    time.sleep(1)
-print("Time stop: {}".format(datetime.datetime.now()))
+data = {}
+dataIn = []
+message = ''
+dataIn = GenerateData()
+
+data = MakeDict(dataIn)
+
+GenerateError(data)
+data = ReplaceError(data)
+errorlist = CheckForErr(data)
+
+if (len(errorlist) != 0):
+    for k, v in errorlist.items():
+        message = message + 'Cluster: {0} has error on sensor: {1} \n'.format(k,v)
+    logging.warning(message)
+
+WriteData(data)
+#    count += 1
+#    time.sleep(0.1)
+#print("Time stop: {}".format(datetime.datetime.now()))
